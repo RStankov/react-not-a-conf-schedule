@@ -109,7 +109,7 @@ function addTime(time, length) {
 
   minutes += length;
 
-  if (minutes > 60) {
+  if (minutes >= 60) {
     hour += Math.floor(1.0 * minutes / 60);
     minutes = parseInt(1.0 * minutes % 60, 10);
   }
@@ -138,7 +138,7 @@ class NumberInput extends Component {
 
     this.props.updateTalk({
       ...this.props.talk,
-      [this.props.name]: Math.max(0, parseInt(value, 10)) || 0,
+      [this.props.name]: Math.max(0, parseInt(value, 10)),
     });
   };
 
