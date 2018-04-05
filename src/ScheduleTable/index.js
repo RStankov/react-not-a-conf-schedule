@@ -5,9 +5,9 @@ export default class ScheduleTable extends Component {
   state = {
     talks: this.props.talks.map((talk, i) => ({
       ...talk,
-      startAt: '00:00',
-      length: '30',
-      qa: '10',
+      length: 30,
+      qa: 10,
+      break: 0,
     })),
   };
 
@@ -39,6 +39,7 @@ export default class ScheduleTable extends Component {
             <th />
             <th>Length</th>
             <th>QA</th>
+            <th>Break</th>
             <th>Start at</th>
             <th>End at</th>
           </tr>
@@ -57,21 +58,28 @@ export default class ScheduleTable extends Component {
                 <button onClick={this.move(i, i + 1)}>⬇</button>
               </td>
               <td>
-                <TextInput
+                <NumberInput
                   talk={talk}
                   updateTalk={this.updateTalk}
                   name="length"
                 />
               </td>
               <td>
-                <TextInput talk={talk} updateTalk={this.updateTalk} name="qa" />
-              </td>
-              <td>
-                <TextInput
+                <NumberInput
                   talk={talk}
                   updateTalk={this.updateTalk}
-                  name="startAt"
+                  name="qa"
                 />
+              </td>
+              <td>
+                <NumberInput
+                  talk={talk}
+                  updateTalk={this.updateTalk}
+                  name="break"
+                />
+              </td>
+              <td>
+                {calculateStartAt(talk)}
               </td>
               <td>
                 {calculateFinishAt(talk)}
@@ -84,8 +92,12 @@ export default class ScheduleTable extends Component {
   }
 }
 
+function calculateStartAt(talk) {
+  return talk.length + talk.qa;
+}
+
 function calculateFinishAt(talk) {
-  return parseInt(talk.length, 10) + parseInt(talk.qa, 10);
+  return talk.length + talk.qa;
 }
 
 function swap(a, x, y) {
@@ -103,17 +115,20 @@ function swap(a, x, y) {
   );
 }
 
-class TextInput extends Component {
+class NumberInput extends Component {
   onChange = e => {
     const value = e.target.value;
 
-    this.props.updateTalk({ ...this.props.talk, [this.props.name]: value });
+    this.props.updateTalk({
+      ...this.props.talk,
+      [this.props.name]: parseInt(value, 10),
+    });
   };
 
   render() {
     return (
       <input
-        type="text"
+        type="number"
         onChange={this.onChange}
         value={this.props.talk[this.props.name]}
       />
