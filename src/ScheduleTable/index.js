@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { sortBy, last } from 'lodash';
+import { sortBy, padStart } from 'lodash';
 
 export default class ScheduleTable extends Component {
   state = {
@@ -92,12 +92,27 @@ export default class ScheduleTable extends Component {
   }
 }
 
+const START_AT = '10:00';
+
 function calculateStartAt(talk) {
-  return talk.length + talk.qa;
+  return START_AT;
 }
 
 function calculateFinishAt(talk) {
-  return talk.length + talk.qa;
+  return addTime(START_AT, talk.length + talk.qa);
+}
+
+function addTime(time, length) {
+  let [hour, minutes] = time.split(':').map(n => parseInt(n, 10));
+
+  minutes += length;
+
+  if (minutes > 60) {
+    hour += Math.floor(1.0 * minutes / 60);
+    minutes = parseInt(1.0 * minutes % 60, 10);
+  }
+
+  return `${padStart(hour, 2, '0')}:${padStart(minutes, 2, '0')}`;
 }
 
 function swap(a, x, y) {
