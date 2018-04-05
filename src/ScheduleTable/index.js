@@ -12,7 +12,6 @@ export default class ScheduleTable extends Component {
   };
 
   updateTalk = newTalk => {
-    console.log(newTalk);
     this.setState({
       talks: sortBy(
         this.state.talks.map(talk => (talk.id === newTalk.id ? newTalk : talk)),
@@ -29,17 +28,17 @@ export default class ScheduleTable extends Component {
     };
   }
 
-  startAtFor(i) {
+  startAt(i) {
     if (i < 1) {
       return this.props.startAt;
     }
 
-    return addTime(this.endAtFor(i - 1), this.state.talks[i - 1].break);
+    return addTime(this.endAt(i - 1), this.state.talks[i - 1].break);
   }
 
-  endAtFor(i) {
+  endAt(i) {
     const talk = this.state.talks[i];
-    return addTime(this.startAtFor(i), talk.length + talk.qa);
+    return addTime(this.startAt(i), talk.length + talk.qa);
   }
 
   render() {
@@ -92,10 +91,10 @@ export default class ScheduleTable extends Component {
                 />
               </td>
               <td>
-                {this.startAtFor(i)}
+                {this.startAt(i)}
               </td>
               <td>
-                {this.endAtFor(i)}
+                {this.endAt(i)}
               </td>
             </tr>,
           )}
@@ -103,16 +102,6 @@ export default class ScheduleTable extends Component {
       </table>
     );
   }
-}
-
-const START_AT = '10:00';
-
-function calculateStartAt(talks, i) {
-  return START_AT;
-}
-
-function calculateFinishAt(talk) {
-  //  return addTime(START_AT, talk.length + talk.qa);
 }
 
 function addTime(time, length) {
