@@ -7,8 +7,16 @@ export default class ScheduleTable extends Component {
       startAt: '00:00',
       length: '30',
       qa: '10',
-      break: '0',
     })),
+  };
+
+  updateTalk = newTalk => {
+    console.log(newTalk);
+    this.setState({
+      talks: this.state.talks.map(
+        talk => (talk.id === newTalk.id ? newTalk : talk),
+      ),
+    });
   };
 
   render() {
@@ -16,13 +24,12 @@ export default class ScheduleTable extends Component {
       <table>
         <thead>
           <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>start at</th>
-            <th>end at</th>
-            <th>length</th>
-            <th>qa</th>
-            <th>break</th>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Length</th>
+            <th>QA</th>
+            <th>Start at</th>
+            <th>End at</th>
           </tr>
         </thead>
         <tbody>
@@ -31,16 +38,49 @@ export default class ScheduleTable extends Component {
               <td>
                 {talk.id}
               </td>
-              <td>name</td>
-              <td>length</td>
-              <td>qa</td>
-              <td>break</td>
-              <td>start at</td>
-              <td>end at</td>
+              <td>
+                {talk.name}
+              </td>
+              <td>
+                <TextInput
+                  talk={talk}
+                  updateTalk={this.updateTalk}
+                  name="length"
+                />
+              </td>
+              <td>
+                <TextInput talk={talk} updateTalk={this.updateTalk} name="qa" />
+              </td>
+              <td>
+                <TextInput
+                  talk={talk}
+                  updateTalk={this.updateTalk}
+                  name="startAt"
+                />
+              </td>
+              <td>00:00</td>
             </tr>,
           )}
         </tbody>
       </table>
+    );
+  }
+}
+
+class TextInput extends Component {
+  onChange = e => {
+    const value = e.target.value;
+
+    this.props.updateTalk({ ...this.props.talk, [this.props.name]: value });
+  };
+
+  render() {
+    return (
+      <input
+        type="text"
+        onChange={this.onChange}
+        value={this.props.talk[this.props.name]}
+      />
     );
   }
 }
