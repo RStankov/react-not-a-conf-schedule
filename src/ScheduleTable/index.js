@@ -118,18 +118,14 @@ function addTime(time, length) {
 }
 
 function swap(a, x, y) {
-  [x, y] = [x, y].sort();
-  return (
-    (a[x] &&
-    a[y] && [
-      ...a.slice(0, x),
-      a[y],
-      ...a.slice(x + 1, y),
-      a[x],
-      ...a.slice(y + 1),
-    ]) ||
-    a
-  );
+  if (!a[x] || !a[y]) return a;
+
+  const d = [...a];
+
+  d[x] = a[y];
+  d[y] = a[x];
+
+  return d;
 }
 
 class NumberInput extends Component {
