@@ -11,3 +11,20 @@ main {
   border-radius: 20px;
   padding: 20px;
 }
+
+table {
+  width: 100%;
+}
+
+table th {
+  border-bottom: 1px solid #dee2e6;
+  padding: 5px 10px;
+}
+
+table th + th {
+  border-left: 1px solid #dee2e6;
+}
+
+table td {
+  text-align: center;
+}
