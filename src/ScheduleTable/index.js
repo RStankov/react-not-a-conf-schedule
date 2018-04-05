@@ -138,7 +138,7 @@ class NumberInput extends Component {
 
     this.props.updateTalk({
       ...this.props.talk,
-      [this.props.name]: Math.max(0, parseInt(value, 10)),
+      [this.props.name]: Math.max(0, parseInt(value, 10)) || 0,
     });
   };
 
