@@ -29,6 +29,19 @@ export default class ScheduleTable extends Component {
     };
   }
 
+  startAtFor(i) {
+    if (i < 1) {
+      return this.props.startAt;
+    }
+
+    return addTime(this.endAtFor(i - 1), this.state.talks[i - 1].break);
+  }
+
+  endAtFor(i) {
+    const talk = this.state.talks[i];
+    return addTime(this.startAtFor(i), talk.length + talk.qa);
+  }
+
   render() {
     return (
       <table>
@@ -79,10 +92,10 @@ export default class ScheduleTable extends Component {
                 />
               </td>
               <td>
-                {calculateStartAt(talk)}
+                {this.startAtFor(i)}
               </td>
               <td>
-                {calculateFinishAt(talk)}
+                {this.endAtFor(i)}
               </td>
             </tr>,
           )}
@@ -94,12 +107,12 @@ export default class ScheduleTable extends Component {
 
 const START_AT = '10:00';
 
-function calculateStartAt(talk) {
+function calculateStartAt(talks, i) {
   return START_AT;
 }
 
 function calculateFinishAt(talk) {
-  return addTime(START_AT, talk.length + talk.qa);
+  //  return addTime(START_AT, talk.length + talk.qa);
 }
 
 function addTime(time, length) {
@@ -136,7 +149,7 @@ class NumberInput extends Component {
 
     this.props.updateTalk({
       ...this.props.talk,
-      [this.props.name]: parseInt(value, 10),
+      [this.props.name]: Math.max(0, parseInt(value, 10)),
     });
   };
 
