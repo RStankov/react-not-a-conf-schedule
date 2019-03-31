@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { sortBy, padStart } from 'lodash';
 
+const TIMINGS = {
+  'Coffee break': { length: 0, qa: 0, break: 20 },
+  'Lunch break': { length: 0, qa: 0, break: 60 },
+  Opening: { length: 15, qa: 0, break: 0 },
+  Closing: { length: 10, qa: 0, break: 0 },
+  Talk: { length: 30, qa: 10, break: 0 },
+};
+
 export default class ScheduleTable extends Component {
   state = {
     talks: this.props.talks.map((talk, i) => ({
       id: i + 1,
       name: talk,
-      length: 30,
-      qa: 10,
-      break: 0,
+      ...(TIMINGS[talk] || TIMINGS.Talk),
     })),
   };
 
