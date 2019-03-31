@@ -4,7 +4,8 @@ import { sortBy, padStart } from 'lodash';
 export default class ScheduleTable extends Component {
   state = {
     talks: this.props.talks.map((talk, i) => ({
-      ...talk,
+      id: i + 1,
+      name: talk,
       length: 30,
       qa: 10,
       break: 0,
@@ -57,14 +58,10 @@ export default class ScheduleTable extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.talks.map((talk, i) =>
+          {this.state.talks.map((talk, i) => (
             <tr key={talk.id}>
-              <td>
-                {talk.id}
-              </td>
-              <td>
-                {talk.name}
-              </td>
+              <td>{talk.id}</td>
+              <td>{talk.name}</td>
               <td>
                 <button onClick={this.move(i - 1, i)}>⬆</button>
                 <button onClick={this.move(i, i + 1)}>⬇</button>
@@ -90,14 +87,10 @@ export default class ScheduleTable extends Component {
                   name="break"
                 />
               </td>
-              <td>
-                {this.startAt(i)}
-              </td>
-              <td>
-                {this.endAt(i)}
-              </td>
-            </tr>,
-          )}
+              <td>{this.startAt(i)}</td>
+              <td>{this.endAt(i)}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     );
@@ -110,8 +103,8 @@ function addTime(time, length) {
   minutes += length;
 
   if (minutes >= 60) {
-    hour += Math.floor(1.0 * minutes / 60);
-    minutes = parseInt(1.0 * minutes % 60, 10);
+    hour += Math.floor((1.0 * minutes) / 60);
+    minutes = parseInt((1.0 * minutes) % 60, 10);
   }
 
   return `${padStart(hour, 2, '0')}:${padStart(minutes, 2, '0')}`;
