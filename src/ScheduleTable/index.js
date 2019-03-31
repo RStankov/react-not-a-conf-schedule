@@ -61,7 +61,7 @@ export default class ScheduleTable extends Component {
           {this.state.talks.map((talk, i) => (
             <tr key={talk.id}>
               <td>{talk.id}</td>
-              <td>{talk.name}</td>
+              <td className="name">{talk.name}</td>
               <td>
                 <button onClick={this.move(i - 1, i)}>⬆</button>
                 <button onClick={this.move(i, i + 1)}>⬇</button>
