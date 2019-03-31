@@ -1,6 +1,6 @@
 import React from 'react';
 import ScheduleTable from './ScheduleTable';
-import data from './data/2018';
+import data from './data/2019';
 
 export default function App() {
   return (
